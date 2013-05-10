@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'fake_smtp'
+
+options = {port: 2025}
+
+parser = OptionParser.new do |opts|
+  opts.on("-p N", "--port N", Float, "Listen on port") do |n|
+    options[:port] = n.to_i
+  end
+end
+
+parser.parse!
+
+FakeSmtp::Server.new(options).run
