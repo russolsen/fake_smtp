@@ -36,12 +36,12 @@ module FakeSmtp
     def run
       log("New session: #{@socket}")
 
-      handlers[:start].call if handlers[:start]
+      instance_eval &handlers[:start] if handlers[:start]
       until done
         break unless cmd = read_line
         handle_command cmd
       end
-      handlers[:end].call if handlers[:end]
+      instance_eval &handlers[:end] if handlers[:end]
 
       @socket.close
       log("Session finished: #{@socket}")
@@ -63,6 +63,7 @@ module FakeSmtp
     end
 
     def respond_with(msg)
+      log "Response: #{msg}"
       @socket.puts msg
     end
 
@@ -75,9 +76,12 @@ module FakeSmtp
   end
 
   class SmtpSession < Session
+    on :start do
+      respond_with '220 smtp.example.com SMTP FakeSmtp'
+    end
     on /^HELO|^EHLO/ do
       words = cmd.split(' ')
-      respond_with "Hello #{words[1]} I am glad to meet you"
+      respond_with "250: Hello #{words[1]} I am glad to meet you"
     end
 
     on /^QUIT/ do
