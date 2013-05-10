@@ -40,7 +40,6 @@ module FakeSmtp
       until done
         break unless cmd = read_line
         handle_command cmd
-        puts "done: #{done}"
       end
       handlers[:end].call if handlers[:end]
 
