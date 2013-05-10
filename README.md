@@ -34,7 +34,7 @@ Contributors
 
 * Russ Olsen
 * I also shamelessly borrowed bits, including some of this readme file
-from `https://github.com/livinginthepast/fakei_ftp.git`.
+from `https://github.com/livinginthepast/fake_ftp.git`.
 
 License
 -------
